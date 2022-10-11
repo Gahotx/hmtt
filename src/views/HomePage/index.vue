@@ -6,7 +6,7 @@
         <img class="logo" src="@/assets/logo.png" alt="" />
       </template>
       <template #right>
-        <van-icon name="search" size="0.48rem" color="#fff" />
+        <van-icon @click="goSearch" name="search" size="0.48rem" color="#fff" />
       </template>
     </van-nav-bar>
 
@@ -81,15 +81,18 @@ export default {
     ChannelEdit
   },
   methods: {
+    // 点击加号显示频道管理面板
     showPopup () {
       this.show = true
     },
+    // 频道管理-添加频道
     async addChannelFn (otherChannel) {
       this.userChannelsList.push(otherChannel)
       await updateUserChannels({
         channels: this.userChannelsList
       })
     },
+    // 频道管理-删除频道
     async removeChannelFn (channel) {
       const index = this.userChannelsList.findIndex(obj => obj.id === channel.id)
       this.userChannelsList.splice(index, 1)
@@ -97,11 +100,17 @@ export default {
         channelId: channel.id
       })
     },
+    // 关闭频道管理面板
     closeEdit () {
       this.show = false
     },
+    // 频道管理-进入频道
     changeChannelFn (channel) {
       this.active = channel.id
+    },
+    // 进入搜索页面
+    goSearch () {
+      this.$router.push('/search')
     }
   },
   computed: {

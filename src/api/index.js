@@ -26,7 +26,6 @@ export const getUserChannels = () => {
 }
 
 // 更新用户频道（重置式）
-
 export const updateUserChannels = ({ channels }) => {
   return request({
     method: 'PUT',
@@ -38,7 +37,6 @@ export const updateUserChannels = ({ channels }) => {
 }
 
 // 删除指定用户频道
-
 export const deleteTheChannel = ({ channelId }) => {
   return request({
     method: 'DELETE',
@@ -78,6 +76,17 @@ export const reportArticle = ({ articleId, type }) => {
       target: articleId,
       type,
       remark: '附加说明'
+    }
+  })
+}
+
+// 获取搜索联想建议
+export const getSuggestions = ({ prefix }) => {
+  return request({
+    method: 'GET',
+    url: '/v1_0/suggestion',
+    params: {
+      q: prefix
     }
   })
 }
