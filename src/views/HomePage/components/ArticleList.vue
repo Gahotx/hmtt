@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import ArticleItem from './ArticleItem.vue'
+import ArticleItem from '@/components/ArticleItem.vue'
 import { getArticlesList, dislikeArticle, reportArticle } from '@/api'
 import { Notify } from 'vant'
 
@@ -69,7 +69,11 @@ export default {
     },
     // 上拉加载更多
     onLoad () {
-      this.getArticlesListFn()
+      if (this.articleList.length > 0) {
+        this.getArticlesListFn()
+      } else {
+        this.loading = false
+      }
     },
     // 下拉刷新
     onRefresh () {

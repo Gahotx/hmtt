@@ -3,8 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'amfe-flexible'
-import { NavBar, Form, Field, Button, Tabbar, TabbarItem, Icon, Tab, Tabs, Cell, List, PullRefresh, ActionSheet, Popup, Col, Row, Badge, Search } from 'vant'
+import { NavBar, Form, Field, Button, Tabbar, TabbarItem, Icon, Tab, Tabs, Cell, List, PullRefresh, ActionSheet, Popup, Col, Row, Badge, Search, Divider } from 'vant'
 
+Vue.use(Divider)
 Vue.use(Search)
 Vue.use(Badge)
 Vue.use(Col)
@@ -26,8 +27,17 @@ Vue.use(NavBar)
 
 Vue.directive('focus', {
   inserted (el) {
-    const searchBox = el.querySelector('input')
-    searchBox.focus()
+    if (el.nodeName === 'TEXTAREA' || el.nodeName === 'INPUT') {
+      el.focus()
+    } else {
+      const inputBox = el.querySelector('input')
+      const textareaBox = el.querySelector('textarea')
+      if (inputBox) {
+        inputBox.focus()
+      } else {
+        textareaBox.focus()
+      }
+    }
   }
 })
 

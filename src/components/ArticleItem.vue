@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 一条文章单元格 -->
-    <van-cell>
+    <van-cell @click="goArticle(list.art_id)">
       <!-- 标题区域的插槽 -->
       <template #title>
         <div class="title-box">
@@ -35,7 +35,7 @@
             <span>{{ timeAgo(list.pubdate) }}</span>
           </div>
           <!-- 反馈按钮 -->
-          <van-icon name="cross" @click="show = true" />
+          <van-icon name="cross" @click="show = true" v-if="isShow"/>
         </div>
       </template>
     </van-cell>
@@ -65,7 +65,11 @@ export default {
     }
   },
   props: {
-    list: Object
+    list: Object,
+    isShow: {
+      type: Boolean,
+      default: true
+    }
   },
   methods: {
     timeAgo,
@@ -90,6 +94,16 @@ export default {
     onClose () {
       this.actions = options
       this.bottomText = '取消'
+    },
+    // 跳转至文章详情页
+    goArticle (aid) {
+      // console.log(aid)
+      this.$router.push({
+        path: '/article',
+        query: {
+          id: aid
+        }
+      })
     }
   }
 }

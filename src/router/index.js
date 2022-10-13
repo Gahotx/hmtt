@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/views/LoginPage'
-import Layout from '@/views/LayoutPage'
-import Home from '@/views/HomePage'
-import User from '@/views/UserPage'
-import Search from '@/views/SearchPage'
+import LoginPage from '@/views/LoginPage'
+import LayoutPage from '@/views/LayoutPage'
+import HomePage from '@/views/HomePage'
+import UserPage from '@/views/UserPage'
+import SearchPage from '@/views/SearchPage'
 import SearchResult from '@/views/SearchPage/SearchResult'
+import ArticleDetail from '@/views/ArticleDetail'
 
 Vue.use(VueRouter)
 
@@ -16,29 +17,33 @@ const routes = [
   },
   {
     path: '/login',
-    component: Login
+    component: LoginPage
   },
   {
     path: '/layout',
-    component: Layout,
+    component: LayoutPage,
     children: [
       {
         path: 'home',
-        component: Home
+        component: HomePage
       },
       {
         path: 'user',
-        component: User
+        component: UserPage
       }
     ]
   },
   {
     path: '/search',
-    component: Search
+    component: SearchPage
   },
   {
     path: '/search/:keywords',
     component: SearchResult
+  },
+  {
+    path: '/article',
+    component: ArticleDetail
   }
 ]
 

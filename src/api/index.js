@@ -90,3 +90,113 @@ export const getSuggestions = ({ prefix }) => {
     }
   })
 }
+
+// 获取搜索结果
+export const getSearchResult = ({ page = 1, perpage = 10, q }) => {
+  return request({
+    method: 'GET',
+    url: '/v1_0/search',
+    params: {
+      page,
+      perpage,
+      q
+    }
+  })
+}
+
+// 获取文章详情
+export const getArticleDetail = ({ aid }) => {
+  return request({
+    method: 'GET',
+    url: `/v1_0/articles/${aid}`
+  })
+}
+
+// 关注用户
+export const followUser = ({ uid }) => {
+  return request({
+    method: 'POST',
+    url: '/v1_0/user/followings',
+    data: {
+      target: uid
+    }
+  })
+}
+
+// 取关用户
+export const unFollowUser = ({ uid }) => {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/user/followings/${uid}`
+  })
+}
+
+// 对文章点赞
+export const likeArticle = ({ aid }) => {
+  return request({
+    method: 'POST',
+    url: '/v1_0/article/likings',
+    data: {
+      target: aid
+    }
+  })
+}
+
+// 取消对文章点赞
+export const nolikeArticle = ({ aid }) => {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/article/likings/${aid}`
+  })
+}
+
+// 获取文章评论
+export const getComments = ({ type = 'a', aid, offset = null, limit = 10 }) => {
+  return request({
+    method: 'GET',
+    url: '/v1_0/comments',
+    params: {
+      type,
+      source: aid,
+      offset,
+      limit
+    }
+  })
+}
+
+// 对评论点赞
+export const likeComment = ({ cid }) => {
+  return request({
+    method: 'POST',
+    url: '/v1_0/comment/likings',
+    data: {
+      target: cid
+    }
+  })
+}
+
+// 取消对评论点赞
+export const dislikeComment = ({ cid }) => {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/comment/likings/${cid}`
+  })
+}
+
+// 对文章进行评论
+export const sendComment = ({ id, content, aid = null }) => {
+  const obj = {
+    target: id,
+    content
+  }
+
+  if (aid !== null) {
+    obj.art_id = aid
+  }
+
+  return request({
+    method: 'POST',
+    url: '/v1_0/comments',
+    data: obj
+  })
+}
