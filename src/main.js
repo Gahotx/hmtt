@@ -3,8 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'amfe-flexible'
-import { NavBar, Form, Field, Button, Tabbar, TabbarItem, Icon, Tab, Tabs, Cell, List, PullRefresh, ActionSheet, Popup, Col, Row, Badge, Search, Divider } from 'vant'
+import { NavBar, Form, Field, Button, Tabbar, TabbarItem, Icon, Tab, Tabs, Cell, List, PullRefresh, ActionSheet, Popup, Col, Row, Badge, Search, Divider, Tag, CellGroup, Image, Dialog, DatetimePicker } from 'vant'
 
+Vue.use(DatetimePicker)
+Vue.use(Dialog)
+Vue.use(Image)
+Vue.use(CellGroup)
+Vue.use(Tag)
 Vue.use(Divider)
 Vue.use(Search)
 Vue.use(Badge)
@@ -30,13 +35,32 @@ Vue.directive('focus', {
     if (el.nodeName === 'TEXTAREA' || el.nodeName === 'INPUT') {
       el.focus()
     } else {
-      const inputBox = el.querySelector('input')
-      const textareaBox = el.querySelector('textarea')
-      if (inputBox) {
-        inputBox.focus()
-      } else {
-        textareaBox.focus()
-      }
+      setTimeout(() => {
+        const inputBox = el.querySelector('input')
+        const textareaBox = el.querySelector('textarea')
+        if (inputBox) {
+          inputBox.focus()
+        }
+        if (textareaBox) {
+          textareaBox.focus()
+        }
+      }, 0)
+    }
+  },
+  update (el) {
+    if (el.nodeName === 'TEXTAREA' || el.nodeName === 'INPUT') {
+      el.focus()
+    } else {
+      setTimeout(() => {
+        const inputBox = el.querySelector('input')
+        const textareaBox = el.querySelector('textarea')
+        if (inputBox) {
+          inputBox.focus()
+        }
+        if (textareaBox) {
+          textareaBox.focus()
+        }
+      }, 0)
     }
   }
 })

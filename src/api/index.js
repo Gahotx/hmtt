@@ -200,3 +200,71 @@ export const sendComment = ({ id, content, aid = null }) => {
     data: obj
   })
 }
+
+// 获取用户个人信息
+export const getUserInfo = () => {
+  return request({
+    method: 'GET',
+    url: '/v1_0/user'
+  })
+}
+
+// 获取用户个人资料
+export const getUserProfile = () => {
+  return request({
+    method: 'GET',
+    url: '/v1_0/user/profile'
+  })
+}
+
+// 上传用户头像
+export const changeAvatar = (data) => {
+  return request({
+    method: 'PATCH',
+    url: '/v1_0/user/photo',
+    data
+  })
+}
+
+// 编辑用户个人资料
+export const changeUserProfile = (obj) => {
+  const dataObj = {
+    name: '',
+    gender: 0,
+    birthday: '',
+    intro: ''
+  }
+
+  for (const k in dataObj) {
+    if (obj[k] === undefined) {
+      delete dataObj[k]
+    } else {
+      dataObj[k] = obj[k]
+    }
+  }
+
+  return request({
+    method: 'PATCH',
+    url: '/v1_0/user/profile',
+    data: dataObj
+  })
+}
+
+// 收藏文章
+export const starArticle = ({ aid }) => {
+  return request({
+    method: 'POST',
+    url: '/v1_0/article/collections',
+    data: {
+      target: aid
+    }
+  })
+}
+
+// 取消收藏文章
+export const unStarArticle = ({ aid }) => {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/article/collections/${aid}`
+  })
+}

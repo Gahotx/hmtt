@@ -5,18 +5,7 @@
 </template>
 
 <script>
-// import { allChannelsList } from '@/api'
-
-export default {
-  // async created () {
-  //   try {
-  //     const res = await allChannelsList()
-  //     console.log(res)
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
-}
+export default {}
 </script>
 
 <style>

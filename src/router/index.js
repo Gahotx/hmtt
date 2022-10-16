@@ -7,6 +7,7 @@ import UserPage from '@/views/UserPage'
 import SearchPage from '@/views/SearchPage'
 import SearchResult from '@/views/SearchPage/SearchResult'
 import ArticleDetail from '@/views/ArticleDetail'
+import UserEdit from '@/views/UserPage/UserEdit'
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,10 @@ const routes = [
   {
     path: '/article',
     component: ArticleDetail
+  },
+  {
+    path: '/setting',
+    component: UserEdit
   }
 ]
 

@@ -5,7 +5,7 @@ import { Notify } from 'vant'
 import router from '@/router'
 
 const axios = ajax.create({
-  baseURL: 'http://toutiao.itheima.net',
+  baseURL: 'https://toutiao.itheima.net',
   timeout: 20000
 })
 

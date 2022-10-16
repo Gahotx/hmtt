@@ -79,7 +79,7 @@
       </div>
 
       <!-- 文章评论 -->
-      <comment-list></comment-list>
+      <comment-list :collectType="article.is_collected" v-if="article.length !== 0"></comment-list>
     </div>
   </div>
 </template>

@@ -64,7 +64,12 @@
             @click="goToComment"
           />
         </van-badge>
-        <van-icon name="star-o" size="0.53333334rem" />
+        <van-icon
+          :name="starLogo"
+          :color="starColor"
+          size="0.53333334rem"
+          @click="starFn"
+        />
         <van-icon name="share-o" size="0.53333334rem" />
       </div>
     </div>
@@ -89,9 +94,19 @@
 
 <script>
 import { timeAgo } from '@/utils/date'
-import { getComments, likeComment, dislikeComment, sendComment } from '@/api'
+import {
+  getComments,
+  likeComment,
+  dislikeComment,
+  sendComment,
+  starArticle,
+  unStarArticle
+} from '@/api'
 
 export default {
+  props: {
+    collectType: Boolean
+  },
   data () {
     return {
       comments: [],
@@ -100,10 +115,19 @@ export default {
       comText: '',
       loading: false,
       finished: false,
-      lastId: null
+      lastId: null,
+      starLogo: 'star-o',
+      starColor: '',
+      isStar: this.collectType
     }
   },
   async created () {
+    // 判断文章是否收藏
+    if (this.isStar) {
+      this.starLogo = 'star'
+      this.starColor = '#FDD13A'
+    }
+
     const res = await getComments({
       aid: this.$route.query.id
     })
@@ -177,6 +201,26 @@ export default {
         this.loading = false
       } else {
         this.loading = false
+      }
+    },
+    // 收藏文章
+    async starFn () {
+      if (!this.isStar) {
+        // 点击时未收藏 -> 收藏
+        this.isStar = true
+        this.starLogo = 'star'
+        this.starColor = '#FDD13A'
+        await starArticle({
+          aid: this.$route.query.id
+        })
+      } else {
+        // 点击时已收藏 -> 取消收藏
+        this.isStar = false
+        this.starLogo = 'star-o'
+        this.starColor = ''
+        await unStarArticle({
+          aid: this.$route.query.id
+        })
       }
     }
   }
