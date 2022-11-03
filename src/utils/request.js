@@ -1,8 +1,9 @@
 // 基于 axios 封装网络请求
 import ajax from 'axios'
-import { getToken } from '@/utils/token'
+import { getToken, removeToken, setToken } from '@/utils/token'
 import { Notify } from 'vant'
 import router from '@/router'
+import { refreshToken } from '@/api'
 
 const axios = ajax.create({
   baseURL: 'https://toutiao.itheima.net',
@@ -26,14 +27,32 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   return response
-}, function (error) {
+}, async function (error) {
   // 对响应错误做点什么
   // console.log(error)
   if (error.response.status === 401) {
-    Notify({ type: 'danger', message: '用户已过期，请重新登录' })
-    setTimeout(() => {
-      router.replace('/login')
-    }, 500)
+    // 方式1： 强制用户重新登录，用户有感知
+    // Notify({ type: 'danger', message: '用户已过期，请重新登录' })
+    // removeToken()
+    // setTimeout(() => {
+    //   router.replace('/login')
+    // }, 500)
+
+    // 方式2：后台直接刷新token，用户无感知
+    removeToken()
+    const res = await refreshToken()
+    // console.log(res)
+    setToken(res.data.data.token)
+    error.config.headers.Authorization = `Bearer ${getToken()}`
+    return axios(error.config)
+  } else if (error.response.data.message === 'refresh_token失效') {
+    if (localStorage.getItem('refresh_token') !== null) {
+      Notify({ type: 'danger', message: '身份已过期，请重新登录' })
+    } else {
+      Notify({ type: 'warning', message: '无权限，请登录后重试' })
+    }
+    localStorage.removeItem('refresh_token')
+    router.replace('/login')
   }
   return Promise.reject(error)
 })

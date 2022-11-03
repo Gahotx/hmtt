@@ -5,7 +5,7 @@
       fixed
       title="文章详情"
       left-arrow
-      @click-left="$router.back()"
+      @click-left="$router.back() || $router.replace('/')"
     />
 
     <!-- 文章信息区域 -->

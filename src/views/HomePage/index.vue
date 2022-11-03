@@ -13,6 +13,7 @@
     <!-- 顶部标签栏 -->
     <van-tabs
       v-model="active"
+      @change="channelChangeFn"
       class="tabs"
       animated
       sticky
@@ -37,6 +38,7 @@
       class="moreChannels"
     />
 
+    <!-- 频道管理弹出层 -->
     <van-popup class="popup" v-model="show" get-container="body">
       <channel-edit
         :userList="userChannelsList"
@@ -44,14 +46,19 @@
         @addChannelEV="addChannelFn"
         @removeChannelEV="removeChannelFn"
         @closeEV="closeEdit"
-        @changeChannelEV="changeChannelFn"
+        @goChannelEV="goChannelFn"
       ></channel-edit>
     </van-popup>
   </div>
 </template>
 
 <script>
-import { getUserChannels, getAllChannels, updateUserChannels, deleteTheChannel } from '@/api'
+import {
+  getUserChannels,
+  getAllChannels,
+  updateUserChannels,
+  deleteTheChannel
+} from '@/api'
 import ArticleList from './components/ArticleList.vue'
 import ChannelEdit from './components/ChannelEdit.vue'
 
@@ -59,10 +66,11 @@ export default {
   name: 'HomePage',
   data () {
     return {
-      active: 0,
+      active: 0, // 频道 ID
       userChannelsList: [],
       allChannelsList: [],
-      show: false
+      show: false,
+      channelScroll: {} // 每个频道的滚动条位置
     }
   },
   async created () {
@@ -94,7 +102,9 @@ export default {
     },
     // 频道管理-删除频道
     async removeChannelFn (channel) {
-      const index = this.userChannelsList.findIndex(obj => obj.id === channel.id)
+      const index = this.userChannelsList.findIndex(
+        (obj) => obj.id === channel.id
+      )
       this.userChannelsList.splice(index, 1)
       await deleteTheChannel({
         channelId: channel.id
@@ -105,12 +115,22 @@ export default {
       this.show = false
     },
     // 频道管理-进入频道
-    changeChannelFn (channel) {
+    goChannelFn (channel) {
       this.active = channel.id
     },
     // 进入搜索页面
     goSearch () {
       this.$router.push('/search')
+    },
+    // 记录各频道的滚动条位置
+    scrollFn () {
+      this.channelScroll[this.active] = document.documentElement.scrollTop
+    },
+    // 切换频道时还原滚动条高度
+    channelChangeFn () {
+      this.$nextTick(() => {
+        document.documentElement.scrollTop = this.channelScroll[this.active]
+      })
     }
   },
   computed: {
@@ -129,6 +149,14 @@ export default {
 
       return newArr
     }
+  },
+  activated () {
+    document.addEventListener('scroll', this.scrollFn)
+    // 切换页面时还原滚动条高度
+    document.documentElement.scrollTop = this.channelScroll[this.active]
+  },
+  deactivated () {
+    document.removeEventListener('scroll', this.scrollFn)
   }
 }
 </script>

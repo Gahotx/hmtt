@@ -78,7 +78,7 @@ export default {
       } else {
         // 默认状态下点击跳转到指定频道
         this.$emit('closeEV')
-        this.$emit('changeChannelEV', obj)
+        this.$emit('goChannelEV', obj)
       }
     },
     closeFn () {

@@ -15,7 +15,7 @@
           <van-image
             round
             class="avatar"
-            :src="userProfile.photo"
+            :src="$store.state.avatar"
             @click="changeAvatar"
           />
           <!-- file 选择框 -->
@@ -75,6 +75,7 @@
 import { getUserProfile, changeAvatar, changeUserProfile } from '@/api'
 import { Notify } from 'vant'
 import { formatDate } from '@/utils/date'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'UserEdit',
@@ -100,6 +101,7 @@ export default {
       newAvatar.append('photo', e.target.files[0])
       const res = await changeAvatar(newAvatar)
       this.userProfile.photo = res.data.data.photo
+      this.SET_USERPHOTO(res.data.data.photo)
       // console.log(res)
     },
     changeAvatar () {
@@ -138,7 +140,8 @@ export default {
         birthday: formatDate(this.currentDate)
       })
       this.userProfile.birthday = formatDate(this.currentDate)
-    }
+    },
+    ...mapMutations(['SET_USERPHOTO'])
   }
 }
 </script>

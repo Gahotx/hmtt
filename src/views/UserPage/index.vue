@@ -6,7 +6,7 @@
       <van-cell>
         <!-- 使用 title 插槽来自定义标题 -->
         <template #icon>
-          <img :src="userInfo.photo" :alt="userInfo.name" class="avatar" />
+          <img :src="$store.state.avatar" :alt="userInfo.name" class="avatar" />
         </template>
         <template #title>
           <span class="username">{{ userInfo.name }}</span>
@@ -35,7 +35,7 @@
     <!-- 操作面板 -->
     <van-cell-group class="action-card">
       <van-cell icon="edit" title="编辑资料" is-link to="/setting"/>
-      <van-cell icon="chat-o" title="小思同学" is-link />
+      <van-cell icon="chat-o" title="小思同学" is-link to="/chat"/>
       <van-cell icon="warning-o" title="退出登录" is-link @click="logout" />
     </van-cell-group>
   </div>
@@ -45,6 +45,7 @@
 import { getUserInfo } from '@/api'
 import { Dialog } from 'vant'
 import { removeToken } from '@/utils/token'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'UserPage',
@@ -53,9 +54,11 @@ export default {
       userInfo: []
     }
   },
-  async created () {
+  // 因为开启了组件缓存，所以 created 需修改为 activated，否则更改头像后不会同步改变
+  async activated () {
     const res = await getUserInfo()
     this.userInfo = res.data.data
+    this.SET_USERPHOTO(res.data.data.photo)
     // console.log(res)
   },
   methods: {
@@ -72,7 +75,8 @@ export default {
         .catch(() => {
           // on cancel
         })
-    }
+    },
+    ...mapMutations(['SET_USERPHOTO'])
   }
 }
 </script>

@@ -58,12 +58,13 @@ export default {
   },
   methods: {
     async onSubmit (values) {
-      console.log('submit', values)
+      // console.log('submit', values)
       this.isLoading = true
       try {
         const res = await userLogin(this.user)
-        console.log(res)
+        // console.log(res)
         setToken(res.data.data.token)
+        localStorage.setItem('refresh_token', res.data.data.refresh_token)
         Notify({ type: 'success', message: '登录成功' })
         this.$router.replace({
           path: '/layout/home'

@@ -85,26 +85,18 @@ export default {
     },
     // 不喜欢文章
     async dislikeFn (aid) {
-      try {
-        await dislikeArticle({
-          articleId: aid
-        })
-        Notify({ type: 'success', message: '反馈成功' })
-      } catch (err) {
-        Notify({ type: 'danger', message: '反馈失败，请重新登录' })
-      }
+      await dislikeArticle({
+        articleId: aid
+      })
+      Notify({ type: 'success', message: '反馈成功' })
     },
     // 举报文章
     async reportFn (aid, val) {
-      try {
-        await reportArticle({
-          articleId: aid,
-          type: val
-        })
-        Notify({ type: 'success', message: '举报成功' })
-      } catch (err) {
-        Notify({ type: 'danger', message: '举报失败，请重新登录' })
-      }
+      await reportArticle({
+        articleId: aid,
+        type: val
+      })
+      Notify({ type: 'success', message: '举报成功' })
     }
   }
 }

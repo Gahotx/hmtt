@@ -268,3 +268,14 @@ export const unStarArticle = ({ aid }) => {
     url: `/v1_0/article/collections/${aid}`
   })
 }
+
+// 刷新用户 token
+export const refreshToken = () => {
+  return request({
+    method: 'PUT',
+    url: '/v1_0/authorizations',
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('refresh_token')
+    }
+  })
+}

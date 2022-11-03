@@ -35,7 +35,7 @@
             <span>{{ timeAgo(list.pubdate) }}</span>
           </div>
           <!-- 反馈按钮 -->
-          <van-icon name="cross" @click="show = true" v-if="isShow"/>
+          <van-icon name="cross" @click.stop="show = true" v-if="isShow"/>
         </div>
       </template>
     </van-cell>
@@ -47,7 +47,7 @@
       get-container="body"
       :cancel-text="bottomText"
       @cancel="onCancel"
-      @close="onClose"
+      @closed="onClosed"
     />
   </div>
 </template>
@@ -82,6 +82,7 @@ export default {
         this.show = false
       } else {
         this.$emit('reportArt', this.list.art_id, actions.value)
+        this.show = false
       }
     },
     onCancel () {
@@ -91,7 +92,7 @@ export default {
         this.bottomText = '取消'
       }
     },
-    onClose () {
+    onClosed () {
       this.actions = options
       this.bottomText = '取消'
     },

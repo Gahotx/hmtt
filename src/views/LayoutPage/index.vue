@@ -2,7 +2,9 @@
   <div>
     <!-- 二级路由页面 -->
     <div class="home_container">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
 
     <!-- 底部标签栏 -->

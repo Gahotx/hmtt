@@ -1,4 +1,4 @@
-const key = 'itheima'
+const key = 'token'
 
 export const setToken = (token) => {
   localStorage.setItem(key, token)

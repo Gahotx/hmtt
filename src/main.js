@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'amfe-flexible'
+import 'highlight.js/styles/default.css' // 代码高亮的样式
+import focus from '@/utils/focus' // 自动聚焦
 import { NavBar, Form, Field, Button, Tabbar, TabbarItem, Icon, Tab, Tabs, Cell, List, PullRefresh, ActionSheet, Popup, Col, Row, Badge, Search, Divider, Tag, CellGroup, Image, Dialog, DatetimePicker } from 'vant'
 
 Vue.use(DatetimePicker)
@@ -29,41 +31,7 @@ Vue.use(Button)
 Vue.use(Form)
 Vue.use(Field)
 Vue.use(NavBar)
-
-Vue.directive('focus', {
-  inserted (el) {
-    if (el.nodeName === 'TEXTAREA' || el.nodeName === 'INPUT') {
-      el.focus()
-    } else {
-      setTimeout(() => {
-        const inputBox = el.querySelector('input')
-        const textareaBox = el.querySelector('textarea')
-        if (inputBox) {
-          inputBox.focus()
-        }
-        if (textareaBox) {
-          textareaBox.focus()
-        }
-      }, 0)
-    }
-  },
-  update (el) {
-    if (el.nodeName === 'TEXTAREA' || el.nodeName === 'INPUT') {
-      el.focus()
-    } else {
-      setTimeout(() => {
-        const inputBox = el.querySelector('input')
-        const textareaBox = el.querySelector('textarea')
-        if (inputBox) {
-          inputBox.focus()
-        }
-        if (textareaBox) {
-          textareaBox.focus()
-        }
-      }, 0)
-    }
-  }
-})
+Vue.use(focus)
 
 Vue.config.productionTip = false
 
